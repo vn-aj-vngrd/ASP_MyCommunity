@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="fe5e0bad82d14ef59c3b84cf3820e2af" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="MyCommunity_DBModel.Address" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyCommunity_DBModel.Monthly_Due" Width="1.5" PointX="3.375" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyCommunity_DBModel.Project" Width="1.5" PointX="6" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyCommunity_DBModel.Resident" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyCommunity_DBModel.Transaction" Width="1.5" PointX="6" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyCommunity_DBModel.User" Width="1.5" PointX="3.75" PointY="7.625" IsExpanded="true" />
+        <AssociationConnector Association="MyCommunity_DBModel.FK_Address_Resident" ManuallyRouted="false" />
+        <AssociationConnector Association="MyCommunity_DBModel.FK_Transaction_Monthly_Due" ManuallyRouted="false" />
+        <AssociationConnector Association="MyCommunity_DBModel.FK_Project_User" ManuallyRouted="false" />
+        <AssociationConnector Association="MyCommunity_DBModel.FK_Transaction_Resident" ManuallyRouted="false" />
+        <AssociationConnector Association="MyCommunity_DBModel.FK_Transaction_User" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

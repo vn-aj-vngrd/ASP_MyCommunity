@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyCommunityModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Address">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="lot" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="block" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="street" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="barangay" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="province" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Residents" Relationship="Self.FK_Address" FromRole="Address" ToRole="Resident" />
+  </EntityType>
+  <EntityType Name="Community_Monthly_Dues">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="monthlyFee" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="month" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="dueDate" Type="DateTime" Precision="0" />
+  </EntityType>
+  <EntityType Name="Project">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="projectName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="projectDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="projectCost" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="projectStarted" Type="DateTime" Precision="0" />
+    <Property Name="projectFinished" Type="DateTime" Precision="0" />
+  </EntityType>
+  <EntityType Name="Resident">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="monthlyDues" Type="Int32" />
+    <Property Name="address" Type="Int32" />
+    <Property Name="fname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="lname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="contactNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="date" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Address1" Relationship="Self.FK_Address" FromRole="Resident" ToRole="Address" />
+    <NavigationProperty Name="Resident_Monthly_Dues" Relationship="Self.FK_MonthlyDue" FromRole="Resident" ToRole="Resident_Monthly_Dues" />
+  </EntityType>
+  <EntityType Name="Resident_Monthly_Dues">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="monthlyFee" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="dueDate" Type="DateTime" Precision="0" />
+    <Property Name="month" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="paidStatus" Type="Boolean" />
+    <NavigationProperty Name="Residents" Relationship="Self.FK_MonthlyDue" FromRole="Resident_Monthly_Dues" ToRole="Resident" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="lname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_Address">
+    <End Role="Address" Type="Self.Address" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Resident" Type="Self.Resident" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Address">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Resident">
+        <PropertyRef Name="address" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MonthlyDue">
+    <End Role="Resident_Monthly_Dues" Type="Self.Resident_Monthly_Dues" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Resident" Type="Self.Resident" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Resident_Monthly_Dues">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Resident">
+        <PropertyRef Name="monthlyDues" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MyCommunityEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Addresses" EntityType="Self.Address" />
+    <EntitySet Name="Community_Monthly_Dues" EntityType="Self.Community_Monthly_Dues" />
+    <EntitySet Name="Projects" EntityType="Self.Project" />
+    <EntitySet Name="Residents" EntityType="Self.Resident" />
+    <EntitySet Name="Resident_Monthly_Dues" EntityType="Self.Resident_Monthly_Dues" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_Address" Association="Self.FK_Address">
+      <End Role="Address" EntitySet="Addresses" />
+      <End Role="Resident" EntitySet="Residents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MonthlyDue" Association="Self.FK_MonthlyDue">
+      <End Role="Resident_Monthly_Dues" EntitySet="Resident_Monthly_Dues" />
+      <End Role="Resident" EntitySet="Residents" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

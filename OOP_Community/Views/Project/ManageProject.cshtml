@@ -1,0 +1,261 @@
+﻿@using OOP_Community.Models;
+@{
+    ViewBag.Title = "Manage Project";
+    List<Project> projectList = ((IEnumerable<Project>)ViewData["projectList"]).ToList();
+    List<User> issuedByList = ((IEnumerable<User>)ViewData["issuedByList"]).ToList();
+}
+
+<div class="pagetitle">
+    <h1>Manage Project</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Project</li>
+            <li class="breadcrumb-item active">Manage Project</li>
+        </ol>
+    </nav>
+</div>
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Community Projects</h5>
+
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Project Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Cost</th>
+                                <th scope="col">Date Started</th>
+                                <th scope="col">Date Finished</th>
+                                <th scope="col">Issued By</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @{ int count = 1, i = 0; }
+                            @foreach (var project in projectList)
+                            {
+
+                                <tr>
+                                    <th scope="row">@( count)</th>
+                                    <td>@project.name</td>
+                                    <td>@project.description</td>
+
+                                    @if (project.status == "Completed")
+                                    {
+                                        <td>
+                                            <span class="badge bg-success">Completed</span>
+                                        </td>
+                                    }
+                                    else if (project.status == "Pending")
+                                    {
+                                        <td>
+                                            <span class="badge bg-secondary">Pending</span>
+                                        </td>
+                                    }
+                                    else if (project.status == "In-Progress")
+                                    {
+                                        <td>
+                                            <span class="badge bg-primary">In-Progress</span>
+                                        </td>
+                                    }
+                                    else if (project.status == "On-Hold")
+                                    {
+                                        <td>
+                                            <span class="badge bg-warning">On-Hold</span>
+                                        </td>
+                                    }
+                                    else if (project.status == "Cancelled")
+                                    {
+                                        <td>
+                                            <span class="badge bg-danger">Cancelled</span>
+                                        </td>
+                                    }
+
+
+                                    <td>@project.cost</td>
+                                    <td>
+                                        @{
+                                            DateTime ds = (DateTime)project.dateStarted;
+                                            var dateStarted = ds.ToString("MM/dd/yyyy");
+                                        }
+                                        @dateStarted
+                                    </td>
+                                    <td>
+                                        @{
+                                            DateTime df = (DateTime)project.dateFinished;
+                                            var dateFinished = df.ToString("MM/dd/yyyy");
+                                        }
+                                        @dateFinished
+                                    </td>
+                                    <td>
+                                        @issuedByList[i].fname
+                                        @issuedByList[i++].lname
+                                    </td>
+                                    <td>
+                                        <a type="button" href="" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal@(count++)"><i class="bi bi-pencil-square"></i></a>&nbsp&nbsp
+                                        <a href="DeleteProjects?projectID=@project.id" class="text-danger"><i class="bi bi-x-square"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @{ count = 1; i = 0; }
+    @foreach (var project in projectList)
+    {
+        DateTime ds = (DateTime)project.dateStarted;
+        var dateStarted = ds.ToString("yyyy-MM-dd");
+
+        DateTime df = (DateTime)project.dateFinished;
+        var dateFinished = df.ToString("yyyy-MM-dd");
+
+        <form method="post" action="UpdateProjects">
+            <div class="modal fade" id="modal@(count++)" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel">Update Resident Information</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <div class="row g-3">
+
+                                <div class="col-md-6">
+                                    <label class="col-form-label">Project Name</label>
+                                    <input type="text" class="form-control" name="name" value="@(project.name)" />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="col-form-label">Description</label>
+                                    <textarea class="form-control" name="description" style="min-height: 39px;">@project.description</textarea>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Status</label>
+                                    <select class="form-select" name="status">
+                                        @if (project.status == "Pending")
+                                        {
+                                            <option value="Pending" selected>Pending</option>
+                                            <option value="In-Progress">In-Progress</option>
+                                            <option value="Completed">Completed</option>
+                                            <option value="On-Hold">On-Hold</option>
+                                            <option value="Cancelled">Cancelled</option>
+                                        }
+
+                                        @if (project.status == "Completed")
+                                        {
+                                            <option value="Pending">Pending</option>
+                                            <option value="In-Progress">In-Progress</option>
+                                            <option value="Completed" selected>Completed</option>
+                                            <option value="On-Hold">On-Hold</option>
+                                            <option value="Cancelled">Cancelled</option>
+                                        }
+
+
+                                        @if (project.status == "In-Progress")
+                                        {
+                                            <option value="Pending">Pending</option>
+                                            <option value="In-Progress" selected>In-Progress</option>
+                                            <option value="Completed">Completed</option>
+                                            <option value="On-Hold">On-Hold</option>
+                                            <option value="Cancelled">Cancelled</option>
+                                        }
+
+
+                                        @if (project.status == "On-Hold")
+                                        {
+                                            <option value="Pending">Pending</option>
+                                            <option value="In-Progress">In-Progress</option>
+                                            <option value="Completed">Completed</option>
+                                            <option value="On-Hold" selected>On-Hold</option>
+                                            <option value="Cancelled">Cancelled</option>
+                                        }
+
+                                        @if (project.status == "Cancelled")
+                                        {
+                                            <option value="Pending">Pending</option>
+                                            <option value="In-Progress">In-Progress</option>
+                                            <option value="Completed">Completed</option>
+                                            <option value="On-Hold">On-Hold</option>
+                                            <option value="Cancelled" selected>Cancelled</option>
+                                        }
+
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Cost (Php)</label>
+                                    <input type="text" class="form-control" name="cost" value="@project.cost" />
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Date Joined</label>
+                                    <input type="date" class="form-control" name="dateStarted" value="@dateStarted" />
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Date Joined</label>
+                                    <input type="date" class="form-control" name="dateFinished" value="@dateFinished" />
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <input type="hidden" name="projectID" value="@project.id" />
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    }
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">My Community</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @Session["Message"]
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (!string.IsNullOrEmpty(Session["Message"] as string))
+{
+    <script type="text/javascript">
+        var myModal = new bootstrap.Modal(document.getElementById("exampleModal"), {});
+        document.onreadystatechange = function () {
+            myModal.show();
+        };
+    </script>
+
+    Session["Message"] = null;
+}

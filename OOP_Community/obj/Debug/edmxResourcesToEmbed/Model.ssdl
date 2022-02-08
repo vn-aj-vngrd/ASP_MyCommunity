@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyCommunityModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Address">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="lot" Type="varchar" MaxLength="50" />
+    <Property Name="block" Type="varchar" MaxLength="50" />
+    <Property Name="street" Type="varchar" MaxLength="50" />
+    <Property Name="barangay" Type="varchar" MaxLength="50" />
+    <Property Name="city" Type="varchar" MaxLength="50" />
+    <Property Name="province" Type="varchar" MaxLength="50" />
+    <Property Name="country" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Community_Monthly_Dues">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="monthlyFee" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="month" Type="varchar" MaxLength="50" />
+    <Property Name="dueDate" Type="date" />
+  </EntityType>
+  <EntityType Name="Project">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="projectName" Type="varchar" MaxLength="50" />
+    <Property Name="projectDescription" Type="varchar" MaxLength="255" />
+    <Property Name="projectCost" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="projectStarted" Type="date" />
+    <Property Name="projectFinished" Type="date" />
+  </EntityType>
+  <EntityType Name="Resident">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="monthlyDues" Type="int" />
+    <Property Name="address" Type="int" />
+    <Property Name="fname" Type="varchar" MaxLength="50" />
+    <Property Name="lname" Type="varchar" MaxLength="50" />
+    <Property Name="contactNo" Type="varchar" MaxLength="50" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+    <Property Name="date" Type="date" />
+  </EntityType>
+  <EntityType Name="Resident_Monthly_Dues">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="monthlyFee" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="dueDate" Type="date" />
+    <Property Name="month" Type="varchar" MaxLength="50" />
+    <Property Name="paidStatus" Type="bit" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fname" Type="varchar" MaxLength="50" />
+    <Property Name="lname" Type="varchar" MaxLength="50" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_Address">
+    <End Role="Address" Type="Self.Address" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Resident" Type="Self.Resident" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Address">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Resident">
+        <PropertyRef Name="address" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MonthlyDue">
+    <End Role="Resident_Monthly_Dues" Type="Self.Resident_Monthly_Dues" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Resident" Type="Self.Resident" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Resident_Monthly_Dues">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Resident">
+        <PropertyRef Name="monthlyDues" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MyCommunityModelStoreContainer">
+    <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Community_Monthly_Dues" EntityType="Self.Community_Monthly_Dues" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Resident" EntityType="Self.Resident" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Resident_Monthly_Dues" EntityType="Self.Resident_Monthly_Dues" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Address" Association="Self.FK_Address">
+      <End Role="Address" EntitySet="Address" />
+      <End Role="Resident" EntitySet="Resident" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MonthlyDue" Association="Self.FK_MonthlyDue">
+      <End Role="Resident_Monthly_Dues" EntitySet="Resident_Monthly_Dues" />
+      <End Role="Resident" EntitySet="Resident" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

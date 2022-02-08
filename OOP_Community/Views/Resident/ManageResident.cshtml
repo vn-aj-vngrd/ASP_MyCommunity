@@ -1,0 +1,227 @@
+﻿@using OOP_Community.Models;
+@{
+    ViewBag.Title = "Manage Resident";
+    List<Resident> residentList = ((IEnumerable<Resident>)ViewData["residentList"]).ToList();
+    List<Address> addressList = ((IEnumerable<Address>)ViewData["addressList"]).ToList();
+}
+
+<div class="pagetitle">
+    <h1>Manage Resident</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Resident</li>
+            <li class="breadcrumb-item active">Manage Resident</li>
+        </ol>
+    </nav>
+</div>
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Community Residents</h5>
+
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Gender</th>
+                                <th scope="col">Birth Date</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Contact Number</th>
+                                <th scope="col">Date Joined</th>
+                                <th scope="col">Address </th>
+                                <th scope="col">Actions </th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @{ int count = 1, i = 0; }
+                            @foreach (var resident in residentList)
+                            {
+
+                                <tr>
+                                    <th scope="row">@( count)</th>
+                                    <td>@resident.fname</td>
+                                    <td>@resident.lname</td>
+                                    <td>@resident.gender</td>
+                                    <td>
+                                        @{
+                                            DateTime dob = (DateTime)resident.dateofBirth;
+                                            var birthDate = dob.ToString("MM/dd/yyyy");
+                                        }
+                                        @birthDate
+                                    </td>
+                                    <td>@resident.email</td>
+                                    <td>@resident.contactNo</td>
+                                    <td>
+                                        @{
+                                            DateTime dj = (DateTime)resident.dateJoined;
+                                            var dateJoined = dj.ToString("MM/dd/yyyy");
+                                        }
+                                        @dateJoined
+                                    </td>
+                                    <td>
+                                        Lot @addressList[i].lot,
+                                        Block @addressList[i].block,
+                                        @addressList[i].street,
+                                        @addressList[i++].subdivision
+                                    </td>
+                                    <td>
+                                        <a type="button" href="" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal@(count++)"><i class="bi bi-pencil-square"></i></a>&nbsp&nbsp
+                                        <a href="DeleteResidents?residentID=@resident.id" class="text-danger"><i class="bi bi-x-square"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @{ count = 1; i = 0; }
+    @foreach (var resident in residentList)
+    {
+
+        DateTime dob = (DateTime)resident.dateofBirth;
+        var birthDate = dob.ToString("yyyy-MM-dd");
+
+        DateTime dj = (DateTime)resident.dateJoined;
+        var dateJoined = dj.ToString("yyyy-MM-dd");
+
+
+        <form method="post" action="UpdateResidents">
+            <div class="modal fade" id="modal@(count++)" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel">Update Resident Information</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <div class="row g-3">
+
+                                <div class="col-md-6">
+                                    <label class="col-form-label">First Name</label>
+                                    <input type="text" class="form-control" name="fname" value="@(resident.fname)" />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="col-form-label">Last Name</label>
+                                    <input type="text" class="form-control" name="lname" value="@(resident.lname)" />
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Gender</label>
+                                    <select class="form-select" name="gender">
+                                        <option value="@(resident.gender)" selected>@(resident.gender)</option>
+                                        @if (resident.gender.Equals("M") == true)
+                                        {
+                                            <option value="F">F</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="M">M</option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Date of Birth</label>
+                                    <input type="date" class="form-control" name="dateofBirth" value="@birthDate" />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="col-form-label">Email</label>
+                                    <input type="text" class="form-control" name="email" value="@(resident.email)" />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="col-form-label">Contact Number</label>
+                                    <input type="text" class="form-control" name="contactNo" value="@(resident.contactNo)" />
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Date Joined</label>
+                                    <input type="date" class="form-control" name="dateJoined" value="@dateJoined" />
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Lot</label>
+                                    <input type="text" class="form-control" name="lot" value="@addressList[i].lot" />
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Block</label>
+                                    <input type="text" class="form-control" name="block" value="@addressList[i].block" />
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Street</label>
+                                    <input type="text" class="form-control" name="street" value="@addressList[i].street" />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="col-form-label">Subdivision</label>
+                                    <input type="text" class="form-control" name="subdivision" value="@addressList[i++].subdivision" />
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <input type="hidden" name="residentID" value="@resident.id" />
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    }
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">My Community</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @Session["Message"]
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@if (!string.IsNullOrEmpty(Session["Message"] as string))
+{
+    <script type="text/javascript">
+        var myModal = new bootstrap.Modal(document.getElementById("exampleModal"), {});
+        document.onreadystatechange = function () {
+            myModal.show();
+        };
+    </script>
+
+    Session["Message"] = null;
+}
+
+

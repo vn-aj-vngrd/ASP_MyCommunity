@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MyCommunityModelStoreContainer" CdmEntityContainer="MyCommunityEntities">
+    <EntitySetMapping Name="Addresses">
+      <EntityTypeMapping TypeName="MyCommunityModel.Address">
+        <MappingFragment StoreEntitySet="Address">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="lot" ColumnName="lot" />
+          <ScalarProperty Name="block" ColumnName="block" />
+          <ScalarProperty Name="street" ColumnName="street" />
+          <ScalarProperty Name="barangay" ColumnName="barangay" />
+          <ScalarProperty Name="city" ColumnName="city" />
+          <ScalarProperty Name="province" ColumnName="province" />
+          <ScalarProperty Name="country" ColumnName="country" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Community_Monthly_Dues">
+      <EntityTypeMapping TypeName="MyCommunityModel.Community_Monthly_Dues">
+        <MappingFragment StoreEntitySet="Community_Monthly_Dues">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="monthlyFee" ColumnName="monthlyFee" />
+          <ScalarProperty Name="month" ColumnName="month" />
+          <ScalarProperty Name="dueDate" ColumnName="dueDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Projects">
+      <EntityTypeMapping TypeName="MyCommunityModel.Project">
+        <MappingFragment StoreEntitySet="Project">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="projectName" ColumnName="projectName" />
+          <ScalarProperty Name="projectDescription" ColumnName="projectDescription" />
+          <ScalarProperty Name="projectCost" ColumnName="projectCost" />
+          <ScalarProperty Name="projectStarted" ColumnName="projectStarted" />
+          <ScalarProperty Name="projectFinished" ColumnName="projectFinished" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Residents">
+      <EntityTypeMapping TypeName="MyCommunityModel.Resident">
+        <MappingFragment StoreEntitySet="Resident">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="monthlyDues" ColumnName="monthlyDues" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="fname" ColumnName="fname" />
+          <ScalarProperty Name="lname" ColumnName="lname" />
+          <ScalarProperty Name="contactNo" ColumnName="contactNo" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="date" ColumnName="date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Resident_Monthly_Dues">
+      <EntityTypeMapping TypeName="MyCommunityModel.Resident_Monthly_Dues">
+        <MappingFragment StoreEntitySet="Resident_Monthly_Dues">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="monthlyFee" ColumnName="monthlyFee" />
+          <ScalarProperty Name="dueDate" ColumnName="dueDate" />
+          <ScalarProperty Name="month" ColumnName="month" />
+          <ScalarProperty Name="paidStatus" ColumnName="paidStatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="MyCommunityModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="fname" ColumnName="fname" />
+          <ScalarProperty Name="lname" ColumnName="lname" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="password" ColumnName="password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,133 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "";
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My Community</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <!-- Fav Icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../Assets/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png">
+    <link rel="manifest" href="../assets/img/site.webmanifest">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="../Assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../Assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+
+    <!-- Modal Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <main>
+        <div class="container">
+            <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+                            <div class="d-flex justify-content-center py-4">
+                                <a href="index.html" class="logo d-flex align-items-center w-auto">
+                                    <img src="../Assets/img/logo.png" alt="">
+                                    <span class="d-none d-lg-block">My Community</span>
+                                </a>
+                            </div>
+
+                            <div class="card mb-3">
+
+                                <div class="card-body">
+
+                                    <div class="pt-4 pb-2">
+                                        <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
+                                        <p class="text-center small">Enter your username & password to login</p>
+                                    </div>
+
+                                    <form method="post" action="LogingIn" class="row g-3 needs-validation" novalidate>
+
+                                        <div class="col-12">
+                                            <label class="form-label">Email Address</label>
+                                            <div class="input-group has-validation">
+                                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                                <input type="email" name="email" class="form-control" required>
+                                                <div class="invalid-feedback">Please enter your email address.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label">Password</label>
+                                            <div class="input-group has-validation">
+                                                <span class="input-group-text"><i class="bi bi-shield-lock"></i></span>
+                                                <input type="password" name="password" class="form-control" required>
+                                                <div class="invalid-feedback">Please enter your password.</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <button class="btn btn-primary w-100" type="submit">Log in</button>
+                                        </div>
+
+                                    </form>
+
+                                </div>
+                            </div>
+
+                            <div class="credits">
+                                Created by <a href="/">Van AJ Vanguardia</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">My Community</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @Session["Message"]
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Session["Message"] as string))
+    {
+        <script type="text/javascript">
+            var myModal = new bootstrap.Modal(document.getElementById("exampleModal"), {});
+            document.onreadystatechange = function () {
+                myModal.show();
+            };
+        </script>
+
+        Session["Message"] = null;
+    }
+
+    <script src="../Assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="../Assets/vendor/php-email-form/validate.js"></script>
+
+    <script src="../Assets/js/main.js"></script>
+</body>
+
+</html>

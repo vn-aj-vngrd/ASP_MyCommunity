@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewBag.Title = "Create Resident";
+}
+
+<div class="pagetitle">
+    <h1>Create Resident</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Resident</li>
+            <li class="breadcrumb-item active">Create Resident</li>
+        </ol>
+    </nav>
+</div>
+
+<form method="post" action="AddingResidents">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title mb-3"> Resident Information</h5>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="fname" placeholder="First Name" required>
+                        <label>First Name</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" name="lname" placeholder="Last Name" required>
+                        <label>Last Name</label>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-floating mb-3">
+                        <select class="form-select" name="gender" aria-label="Gender" required>
+                            <option value="M" selected>Male</option>
+                            <option value="F"> Female</option>
+                        </select>
+                        <label>Gender</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-floating">
+                        <input type="email" class="form-control" name="email" placeholder="Email Address" required>
+                        <label>Email Address</label>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" name="contactNo" placeholder="Contact Number" required>
+                        <label>Contact Number</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <input type="date" class="form-control" name="dateofBirth" placeholder="Date of Birth" required>
+                        <label>Date of Birth</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input type="date" class="form-control" name="dateJoined" placeholder="Date Joined" required>
+                        <label>Date Joined</label>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="lot" placeholder="Lot" required>
+                        <label>Lot</label>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" name="block" placeholder="Block" required>
+                        <label>Block</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" name="street" placeholder="Street" required>
+                        <label>Street</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" name="subdivision" placeholder="Subdivision" required>
+                        <label>Subdivision</label>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">My Community</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @Session["Message"]
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (!string.IsNullOrEmpty(Session["Message"] as string))
+{
+    <script type="text/javascript">
+        var myModal = new bootstrap.Modal(document.getElementById("exampleModal"), {});
+        document.onreadystatechange = function () {
+            myModal.show();
+        };
+    </script>
+
+    Session["Message"] = null;
+}

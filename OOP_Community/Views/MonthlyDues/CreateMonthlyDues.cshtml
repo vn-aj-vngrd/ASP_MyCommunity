@@ -1,0 +1,116 @@
+﻿@using OOP_Community.Models;
+@{
+    ViewBag.Title = "Create Monthly Dues";
+    List<Resident> residents = ((IEnumerable<Resident>)ViewData["residents"]).ToList();
+}
+
+<div class="pagetitle">
+    <h1>Create Monthly Dues</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Monthly Dues</li>
+            <li class="breadcrumb-item active">Create Monthly Dues</li>
+        </ol>
+    </nav>
+</div>
+<form method="post" action="CreatingMonthlyDues">
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-6">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Monthly Dues Information</h5>
+
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select" name="month">
+                                        <option value="January">January</option>
+                                        <option value="February">February</option>
+                                        <option value="March">March</option>
+                                        <option value="April">April</option>
+                                        <option value="May">May</option>
+                                        <option value="June">June</option>
+                                        <option value="July">July</option>
+                                        <option value="August">August</option>
+                                        <option value="September">September</option>
+                                        <option value="October">October</option>
+                                        <option value="November">November</option>
+                                        <option value="December">December</option>
+                                    </select>
+                                    <label>Month </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="number" name="monthlyFee" step="any" min="1" class="form-control" placeholder="Monthly Fee" required>
+                                    <label>Monthly Fee (Php)</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="date" class="form-control" name="dueDate" placeholder="dueDate" required>
+                                    <label>Due Date</label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <button type="submit" class="btn btn-primary">Create</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Resident List</h5>
+
+
+                        <ul class="list-group list-group-numbered">
+                            @foreach (var resident in residents)
+                            {
+                                <li class="list-group-item">@resident.fname @resident.lname</li>
+                            }
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">My Community</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @Session["Message"]
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+
+@if (!string.IsNullOrEmpty(Session["Message"] as string))
+{
+    <script type="text/javascript">
+        var myModal = new bootstrap.Modal(document.getElementById("exampleModal"), {});
+        document.onreadystatechange = function () {
+            myModal.show();
+        };
+    </script>
+
+    Session["Message"] = null;
+}

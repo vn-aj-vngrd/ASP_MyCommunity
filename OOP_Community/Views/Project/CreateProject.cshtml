@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "Create Project";
+}
+
+<div class="pagetitle">
+    <h1>Create Project</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Project</li>
+            <li class="breadcrumb-item active">Create Project</li>
+        </ol>
+    </nav>
+</div>
+
+<form method="post" action="AddingProjects">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title mb-3">Project Information</h5>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="name" placeholder="Project Name" required>
+                        <label>Project Name</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Description" name="description" style="min-height: 58px;" required></textarea>
+                        <label>Description</label>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-floating mb-3">
+                        <select class="form-select" name="status" aria-label="Satus" required>
+                            <option value="Pending" selected>Pending</option>
+                            <option value="In-Progress">In-Progress</option>
+                            <option value="Completed">Completed</option>
+                            <option value="On-Hold">On-Hold</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                        <label>Status</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        <input input type="number" step="any" min="1" class="form-control" name="cost" placeholder="Cost" required>
+                        <label>Cost (Php)</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-floating mb-3">
+                        <input type="date" class="form-control" name="dateStarted" placeholder="Date Started" required>
+                        <label>Date Started</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-floating">
+                        <input type="date" class="form-control" name="dateFinished" placeholder="Date Finished" required>
+                        <label>Date Finished</label>
+                    </div>
+                </div>
+
+                <div>
+                    <input type="hidden" value="1" name="issuedBy">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">My Community</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @Session["Message"]
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if (!string.IsNullOrEmpty(Session["Message"] as string))
+{
+    <script type="text/javascript">
+        var myModal = new bootstrap.Modal(document.getElementById("exampleModal"), {});
+        document.onreadystatechange = function () {
+            myModal.show();
+        };
+    </script>
+
+    Session["Message"] = null;
+}
+
+
+

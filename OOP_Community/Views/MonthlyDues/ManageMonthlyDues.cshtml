@@ -1,0 +1,207 @@
+﻿@using OOP_Community.Models;
+@{
+    ViewBag.Title = "Manage Monthly Dues";
+}
+
+<div class="pagetitle">
+    <h1>Manage Monthly Dues</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Monthly Dues</li>
+            <li class="breadcrumb-item active">Manage Monthly Dues</li>
+        </ol>
+    </nav>
+</div>
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Monthly Dues</h5>
+
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Resident</th>
+                                <th scope="col">Month</th>
+                                <th scope="col">Due Date</th>
+                                <th scope="col">Fee</th>
+                                <th scope="col">Paid Status</th>
+                                <th scope="col">Paid Date</th>
+                                <th scope="col">Action</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @{ int count = 1; }
+                            @foreach (var item in ViewData["monthlyDues"] as IEnumerable<OOP_Community.Models.MonthlyDuesJoin>)
+                            {
+                                var paidDate = "No Date";
+                                var paidStatus = "Unpaid";
+                                <tr>
+                                    <th scope="row">@( count)</th>
+                                    <td>@item.ResidentList.fname @item.ResidentList.lname </td>
+                                    <td>@item.MonthlyDueList.month</td>
+                                    <td>
+                                        @{
+                                            DateTime dd = (DateTime)item.MonthlyDueList.dueDate;
+                                            var dueDate = dd.ToString("MM/dd/yyyy");
+                                        }
+                                        @dueDate
+                                    </td>
+                                    <td>₱ @item.MonthlyDueList.monthlyFee</td>
+
+                                    @if (item.TransactionList.paidStatus == true)
+                                    {
+                                        <td>
+                                            <span class="badge bg-success">Paid</span>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <span class="badge bg-danger">Unpaid</span>
+                                        </td>
+                                    }
+
+                                    <td>
+                                        @if (item.TransactionList.paidDate != null)
+                                        {
+                                            DateTime pd = (DateTime)item.TransactionList.paidDate;
+                                            paidDate = pd.ToString("MM/dd/yyyy");
+                                        }
+                                        @paidDate
+                                    </td>
+
+                                    <td>
+                                        <a type="button" href="" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal@(count++)"><i class="bi bi-pencil-square"></i></a>&nbsp&nbsp
+                                        <a href="DeleteTransactions?transactionID=@item.TransactionList.id" class="text-danger"><i class="bi bi-x-square"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @{ count = 1; }
+    @foreach (var item in ViewData["monthlyDues"] as IEnumerable<OOP_Community.Models.MonthlyDuesJoin>)
+    {
+        DateTime dd = (DateTime)item.MonthlyDueList.dueDate;
+        var dueDate = dd.ToString("yyyy-MM-dd");
+
+        var paidDate = "No Date";
+        if (item.TransactionList.paidDate != null)
+        {
+            DateTime pd = (DateTime)item.TransactionList.paidDate;
+            paidDate = pd.ToString("yyyy-MM-dd");
+        }
+
+        <form method="post" action="UpdateMonthlyDues">
+            <div class="modal fade" id="modal@(count++)" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel">Update Resident Monthly Dues</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <div class="row g-3">
+
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Resident</label>
+                                    <input type="text" class="form-control" value="@item.ResidentList.fname @item.ResidentList.lname" disabled />
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Month</label>
+                                    <input type="text" class="form-control" value="@item.MonthlyDueList.month" disabled />
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Due Date</label>
+                                    <input type="date" class="form-control" value="@dueDate" disabled />
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="col-form-label">Fee</label>
+                                    <input type="text" class="form-control" value="@item.MonthlyDueList.monthlyFee" disabled />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="col-form-label">Status</label>
+                                    <select class="form-select" name="paidStatus" required>
+                                        @if (item.TransactionList.paidStatus == true)
+                                        {
+                                            <option value="true" selected>Paid</option>
+                                            <option value="false">Unpaid</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="true">Paid</option>
+                                            <option value="false" selected>Unpaid</option>
+                                        }
+
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="col-form-label">Paid Date</label>
+                                    <input type="date" class="form-control" name="paidDate" value="@paidDate" required />
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <input type="hidden" name="transactionID" value="@item.TransactionList.id" />
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    }
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">My Community</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @Session["Message"]
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (!string.IsNullOrEmpty(Session["Message"] as string))
+{
+    <script type="text/javascript">
+        var myModal = new bootstrap.Modal(document.getElementById("exampleModal"), {});
+        document.onreadystatechange = function () {
+            myModal.show();
+        };
+    </script>
+
+    Session["Message"] = null;
+}
